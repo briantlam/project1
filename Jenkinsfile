@@ -9,8 +9,6 @@ node {
         customImage.push()
 
         /* Run the container on port 3000 */
-        customImage.withRun {
-            c -> sh '-p 3000:3000'
-        }
+        customImage.withRun("-p 3000:3000") {}
     }
 }
