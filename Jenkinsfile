@@ -8,6 +8,7 @@ node {
         /* Push the container to the custom Registry */
         customImage.push()
 
-        customImage.run("-d -p 3000:3000 briantlam/project1")
+        /* Run the container on port 3000 */
+        customImage.run("-p 3000:3000")
     }
 }
