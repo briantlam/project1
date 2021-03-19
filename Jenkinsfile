@@ -1,14 +1,17 @@
 node {
     checkout scm
 
+    // stop any running containers
+    sh 'docker container stop $(docker ps -a -q)'
+    
     docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
 
         def customImage = docker.build("briantlam/project1")
 
-        /* Push the container to the custom Registry */
+        // Push the container to the custom Registry
         customImage.push()
 
-        /* Run the container on port 3000 */
-        customImage.withRun("-p 3000:3000") {}
+        // Run the container on port 3000
+        customImage.run("-p 3000:3000")
     }
 }
