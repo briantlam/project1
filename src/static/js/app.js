@@ -56,7 +56,7 @@ function TodoListCard() {
                 <p className="text-center">You have no todo items yet! Add one above!</p>
             )}
             {items.length === 0 && (
-                <p className="text-center">Version 1.0</p>
+                <p className="text-center">Version 1.1</p>
             )}
             {items.map(item => (
                 <ItemDisplay
