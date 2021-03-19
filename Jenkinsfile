@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Pull From GitHub') {
             steps {
@@ -17,16 +17,18 @@ pipeline {
 
         stage('Execute Docker Steps') {
             steps {
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
 
-                    // build the image
-                    def customImage = docker.build("briantlam/project1")
+                        // build the image
+                        def customImage = docker.build("briantlam/project1")
 
-                    // Push the image to the custom Registry
-                    customImage.push()
+                        // Push the image to the custom Registry
+                        customImage.push()
 
-                    // Run the container on port 3000
-                    customImage.run("-p 3000:3000")
+                        // Run the container on port 3000
+                        customImage.run("-p 3000:3000")
+                    }
                 }
             }
         }
