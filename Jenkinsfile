@@ -1,17 +1,32 @@
 node {
-    checkout scm
+    stages {
+        stage('Pull From GitHub') {
+            steps {
+                checkout scm
+            }
+        }
 
-    // stop any running containers
-    sh 'docker container stop $(docker ps -a -q)'
-    
-    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+        stage('Stop Running Containers') {
+            steps {
+                // stop any running containers
+                sh 'docker container stop $(docker ps -a -q)'
+            }
+        }
 
-        def customImage = docker.build("briantlam/project1")
+        stage('Execute Docker Steps') {
+            steps {
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
 
-        // Push the container to the custom Registry
-        customImage.push()
+                    // build the image
+                    def customImage = docker.build("briantlam/project1")
 
-        // Run the container on port 3000
-        customImage.run("-p 3000:3000")
+                    // Push the image to the custom Registry
+                    customImage.push()
+
+                    // Run the container on port 3000
+                    customImage.run("-p 3000:3000")
+                }
+            }
+        }
     }
 }
